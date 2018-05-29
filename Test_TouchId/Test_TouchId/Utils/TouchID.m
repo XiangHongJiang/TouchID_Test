@@ -111,7 +111,9 @@ static TouchID *instance = nil;
                             [touchId evaluatePolicy:LAPolicyDeviceOwnerAuthentication localizedReason:@"请输入开机密码以解锁Touch ID" reply:^(BOOL success, NSError * _Nullable error) {
                                 if (success) {
                                     
+                                    dispatch_async(dispatch_get_main_queue(), ^{
                                     block(TBTouchIDStateSuccess,error);
+                                    });
                                 }
                             }];
                         } else {
