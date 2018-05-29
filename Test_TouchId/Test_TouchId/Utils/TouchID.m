@@ -42,7 +42,7 @@ static TouchID *instance = nil;
     LAContext *context = [[LAContext alloc] init];
 
     [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:desc == nil ? @"通过Home键验证已有指纹":desc reply:^(BOOL success, NSError * _Nullable error) {
-       
+        
         if (success) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"TouchID 验证成功");
@@ -110,17 +110,14 @@ static TouchID *instance = nil;
                          LAContext * touchId = [LAContext new];
                             [touchId evaluatePolicy:LAPolicyDeviceOwnerAuthentication localizedReason:@"请输入开机密码以解锁Touch ID" reply:^(BOOL success, NSError * _Nullable error) {
                                 if (success) {
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        
-                                        block(TBTouchIDStateSuccess,error);
-                                    });
+                                    
+                                    block(TBTouchIDStateSuccess,error);
                                 }
                             }];
                         } else {
                             // Fallback on earlier versions
                             NSLog(@"验证失败");
                             block(TBTouchIDStateTouchIDLockout,error);
-                            NSLog(@"blockThread 0:%@\nblockThread 1:%@ \n isMain:%ld\n+————————————————+\n", [NSThread currentThread],[NSThread mainThread],[NSThread isMainThread]);
 
 
                         }
